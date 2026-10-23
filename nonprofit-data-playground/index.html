@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interactive learning space for exploring nonprofit donor relationships and giving scenarios.">
+  <meta name="theme-color" content="#10213b">
+  <title>Nonprofit Data Playground</title>
+  <style>
+    :root{--navy:#10213b;--navy2:#1b3654;--ink:#19283b;--muted:#5c6b7a;--paper:#f5f7f5;--white:#fff;--line:#dce5e0;--green:#a5d7b5;--green-dark:#24634b;--mint:#e4f2e8;--gold:#f2c879;--shadow:0 18px 50px #10213b12}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(1120px,90%);margin-inline:auto}
+    .topbar{position:sticky;top:0;z-index:5;background:#10213bf2;color:white;border-bottom:1px solid #ffffff22;backdrop-filter:blur(12px)}.nav{min-height:70px;display:flex;justify-content:space-between;align-items:center;gap:24px}.brand{font-weight:850;letter-spacing:-.04em;font-size:19px}.brand span{color:var(--green)}.navlinks{display:flex;gap:25px;font-size:14px;color:#dce6ef}.navlinks a:hover{color:var(--green)}
+    .hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 90% 20%,#2b574d 0,transparent 36%),linear-gradient(125deg,var(--navy),var(--navy2));color:white;padding:92px 0 100px}.hero:after{content:"";position:absolute;width:440px;height:440px;border:1px solid #ffffff1e;border-radius:50%;right:-150px;bottom:-290px;box-shadow:0 0 0 45px #ffffff08,0 0 0 90px #ffffff06}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:60px;align-items:center;position:relative;z-index:1}.eyebrow{margin:0 0 17px;color:#87bc9e;text-transform:uppercase;letter-spacing:.18em;font-weight:800;font-size:11px}.hero .eyebrow{color:#b2dfc0}.hero h1{font-size:clamp(43px,6vw,76px);line-height:1.02;letter-spacing:-.055em;margin:0 0 24px;max-width:700px}.hero h1 em{font-style:normal;color:#bce3c6}.lead{max-width:610px;font-size:18px;color:#dce6ef;margin:0 0 30px}.actions{display:flex;gap:12px;flex-wrap:wrap}.button{display:inline-flex;align-items:center;justify-content:center;border-radius:8px;padding:12px 18px;font-weight:750;background:var(--green);color:#123324;transition:transform .18s,background .18s}.button:hover{transform:translateY(-2px);background:#c2ebcb}.button.secondary{background:transparent;color:white;border:1px solid #ffffff55}.button.secondary:hover{background:#ffffff12}.hero-card{border:1px solid #ffffff30;background:#ffffff0d;backdrop-filter:blur(6px);padding:25px;border-radius:18px;box-shadow:0 25px 60px #07142735}.hero-card .label{font-size:12px;color:#c6d6e5;text-transform:uppercase;letter-spacing:.1em}.hero-card strong{display:block;font-size:26px;line-height:1.2;margin:7px 0 17px}.mini-bars{display:grid;gap:10px}.bar-row{display:grid;grid-template-columns:74px 1fr 36px;align-items:center;gap:10px;font-size:12px;color:#e4edf4}.track{height:9px;border-radius:99px;background:#ffffff20;overflow:hidden}.track i{display:block;height:100%;border-radius:inherit;background:var(--green)}.bar-row:nth-child(2) .track i{background:var(--gold)}.bar-row:nth-child(3) .track i{background:#91b9ec}
+    .section{padding:78px 0}.section.light{background:white}.section-head{max-width:720px;margin-bottom:30px}.section h2{font-size:clamp(30px,4vw,44px);letter-spacing:-.045em;line-height:1.1;margin:0 0 14px}.section-intro{color:var(--muted);font-size:17px;margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.card{background:white;border:1px solid var(--line);border-radius:14px;padding:23px;box-shadow:var(--shadow)}.light .card{background:var(--paper);box-shadow:none}.card .num{font-size:12px;font-weight:800;color:var(--green-dark);letter-spacing:.12em}.card h3{font-size:20px;line-height:1.2;margin:12px 0 9px}.card p{color:var(--muted);margin:0}
+    .playground{background:linear-gradient(180deg,#edf5ef,white)}.lab-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:start}.controls,.results{background:white;border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:var(--shadow)}.controls h3,.results h3{font-size:21px;margin:0 0 5px}.sub{color:var(--muted);font-size:14px;margin:0 0 22px}.field{margin:0 0 21px}.field label{display:flex;justify-content:space-between;gap:15px;font-weight:700;font-size:14px;margin-bottom:8px}.field output{color:var(--green-dark);font-variant-numeric:tabular-nums}.field input[type=range]{width:100%;accent-color:#39815f}.field input[type=number]{width:100%;border:1px solid #cbd8d0;background:#fbfdfb;border-radius:8px;padding:11px 12px;font:inherit}.hint{font-size:12px;color:var(--muted);margin:6px 0 0}.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.metric{padding:17px;border-radius:12px;background:#f3f7f4}.metric.highlight{background:var(--navy);color:white}.metric small{display:block;font-size:12px;opacity:.76}.metric strong{display:block;font-size:clamp(22px,3vw,30px);letter-spacing:-.04em;margin-top:5px}.mix{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}.mix-label{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted);margin-bottom:9px}.mixbar{display:flex;height:14px;overflow:hidden;border-radius:99px;background:#e6ece8}.mixbar span:first-child{background:#3b8966}.mixbar span:last-child{background:#efc879}.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:#3b8966}.dot.gold{background:#efc879}.formula{margin:19px 0 0;color:var(--muted);font-size:12px}
+    .questions{display:grid;grid-template-columns:1fr 1fr;gap:16px}.question{border-left:3px solid #77b38e;padding:8px 0 8px 17px}.question strong{display:block;font-size:16px}.question span{color:var(--muted);font-size:14px}
+    .ethics{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}.ethics-note{background:var(--navy);color:white;border-radius:16px;padding:27px}.ethics-note h3{margin:0 0 8px}.ethics-note p{color:#d9e4ed;margin:0}.checks{display:grid;gap:15px}.check{display:flex;gap:12px}.check b{color:var(--green-dark)}.check p{margin:0;color:var(--muted)}footer{background:#0b182a;color:#c6d1dd;padding:26px 0;font-size:13px}.foot{display:flex;justify-content:space-between;gap:16px;align-items:center}.foot a{text-decoration:underline;text-underline-offset:3px}
+    :focus-visible{outline:3px solid #e2b95e;outline-offset:3px} @media(max-width:760px){.navlinks{gap:13px;font-size:12px}.hero{padding:68px 0 75px}.hero-grid,.lab-grid,.ethics{grid-template-columns:1fr;gap:24px}.hero-card{max-width:460px}.section{padding:60px 0}.cards{grid-template-columns:1fr}.questions{grid-template-columns:1fr}.foot{display:block}.foot span{display:block;margin-bottom:8px}} @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="wrap nav" aria-label="Main navigation">
+      <a class="brand" href="#top">Nonprofit <span>Data</span> Playground</a>
+      <div class="navlinks"><a href="#questions">Explore</a><a href="#playground">Try a scenario</a><a href="#responsible">Responsible data</a></div>
+    </nav>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Data with purpose</p>
+          <h1>Make better questions for <em>better giving.</em></h1>
+          <p class="lead">A hands-on learning space for exploring donor relationships, giving patterns, and nonprofit decisions—one clear question at a time.</p>
+          <div class="actions"><a class="button" href="#playground">Try the scenario ↘</a><a class="button secondary" href="#questions">See what to explore</a></div>
+        </div>
+        <aside class="hero-card" aria-label="Illustrative nonprofit data categories">
+          <span class="label">A thoughtful starting point</span>
+          <strong>Understand the relationship, not just the transaction.</strong>
+          <div class="mini-bars" aria-hidden="true">
+            <div class="bar-row"><span>Retention</span><div class="track"><i style="width:68%"></i></div><b>↗</b></div>
+            <div class="bar-row"><span>Campaigns</span><div class="track"><i style="width:52%"></i></div><b>◎</b></div>
+            <div class="bar-row"><span>Impact</span><div class="track"><i style="width:78%"></i></div><b>＋</b></div>
+          </div>
+          <p class="hint" style="color:#c6d6e5;margin:17px 0 0">Decorative illustration only; it does not represent real organization results.</p>
+        </aside>
+      </div>
+    </section>
+    <section class="section light" id="questions">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Explore with care</p><h2>Start with questions that help people.</h2><p class="section-intro">Good nonprofit analysis connects useful evidence to a mission. These prompts can guide a project before you choose a chart or model.</p></div>
+        <div class="cards">
+          <article class="card"><span class="num">01 / RELATIONSHIPS</span><h3>Are people coming back?</h3><p>Compare first-time and returning donors over consistent time periods. Look for changes, not just totals.</p></article>
+          <article class="card"><span class="num">02 / CAMPAIGNS</span><h3>What invites participation?</h3><p>Compare campaign timing, audience, and giving patterns while being clear about what the data cannot explain.</p></article>
+          <article class="card"><span class="num">03 / STEWARDSHIP</span><h3>Where can follow-up improve?</h3><p>Use aggregate patterns to plan timely, respectful communication and recognize donor preferences.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section playground" id="playground">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Interactive sandbox</p><h2>Change an assumption. See what moves.</h2><p class="section-intro">Try a simple giving scenario. All starting values are examples you can change; this is a learning calculator, not a forecast.</p></div>
+        <div class="lab-grid">
+          <form class="controls" onsubmit="return false" aria-label="Giving scenario inputs">
+            <h3>Your scenario</h3><p class="sub">Adjust the inputs to explore the relationship between donors, average gift, and repeat giving.</p>
+            <div class="field"><label for="donors">Donors in this period <output id="donorsOut" for="donors">250</output></label><input id="donors" type="range" min="10" max="2000" step="10" value="250"><p class="hint">Number of people who gave during this example period.</p></div>
+            <div class="field"><label for="gift">Average gift <output id="giftOut" for="gift">$50</output></label><input id="gift" type="range" min="5" max="500" step="5" value="50"><p class="hint">A rounded sample value, not a benchmark.</p></div>
+            <div class="field"><label for="repeat">Returning donor share <output id="repeatOut" for="repeat">32%</output></label><input id="repeat" type="range" min="0" max="100" step="1" value="32"><p class="hint">The assumed share of donors who have given before.</p></div>
+            <div class="field"><label for="goal">Retention improvement to explore <output id="goalOut" for="goal">5 percentage points</output></label><input id="goal" type="range" min="1" max="20" step="1" value="5"><p class="hint">A hypothetical change, not a promised outcome.</p></div>
+          </form>
+          <section class="results" aria-live="polite" aria-atomic="true">
+            <h3>Scenario snapshot</h3><p class="sub">Illustrative calculations based on your inputs.</p>
+            <div class="result-grid">
+              <div class="metric highlight"><small>Giving in this period</small><strong id="total">$12,500</strong></div>
+              <div class="metric"><small>Returning donors</small><strong id="returning">80</strong></div>
+              <div class="metric"><small>First-time / one-time donors</small><strong id="firstTime">170</strong></div>
+              <div class="metric"><small>Extra giving at the chosen lift*</small><strong id="lift">$625</strong></div>
+            </div>
+            <div class="mix"><div class="mix-label"><span>Donor mix in this example</span><span id="mixLabel">32% returning</span></div><div class="mixbar" role="img" aria-label="Donor mix bar"><span id="repeatBar" style="width:32%"></span><span id="firstBar" style="width:68%"></span></div><div class="legend"><span><i class="dot"></i>Returning</span><span><i class="dot gold"></i>First-time / one-time</span></div></div>
+            <p class="formula">*Simple what-if: donors × improvement points × average gift. It assumes one additional gift per retained donor and does not model costs, timing, or donor behavior.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section class="section light">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">A project toolkit</p><h2>Useful analysis is clear about its limits.</h2><p class="section-intro">As you add a real dataset, document where it came from, what each row represents, and which fields are missing or approximate.</p></div>
+        <div class="questions">
+          <div class="question"><strong>Define the unit</strong><span>Is one row a donor, a gift, or a campaign-day?</span></div>
+          <div class="question"><strong>Check the time window</strong><span>Are you comparing complete and comparable periods?</span></div>
+          <div class="question"><strong>Separate association from cause</strong><span>A pattern can suggest a question without proving why it happened.</span></div>
+          <div class="question"><strong>Explain the measure</strong><span>State how you define retention, average gift, and campaign success.</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="responsible">
+      <div class="wrap ethics">
+        <div><p class="eyebrow">Responsible data</p><h2>Protect trust while learning.</h2><p class="section-intro">Donor data describes people. Handle it with the same care your organization gives its relationships.</p></div>
+        <div class="checks">
+          <div class="check"><b>✓</b><p><strong>Keep personal details private.</strong> Do not publish donor names, emails, addresses, or account identifiers.</p></div>
+          <div class="check"><b>✓</b><p><strong>Use only data you are allowed to use.</strong> Follow the dataset’s terms and your organization’s policies.</p></div>
+          <div class="check"><b>✓</b><p><strong>Prefer aggregate results.</strong> Share trends that support decisions without exposing an individual donor.</p></div>
+          <div class="check"><b>✓</b><p><strong>Make assumptions visible.</strong> Label sample values, exclusions, and limitations in every analysis.</p></div>
+        </div>
+        <aside class="ethics-note"><h3>About this playground</h3><p>This page contains no real donor records. The calculator uses editable example assumptions only. Add a dataset citation and methodology here before sharing analysis results.</p></aside>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap foot"><span>Nonprofit Data Playground · Independent learning project</span><a href="#top">Back to top ↑</a></div></footer>
+  <script>
+    (function(){
+      const donors=document.getElementById('donors');
+      const gift=document.getElementById('gift');
+      const repeat=document.getElementById('repeat');
+      const goal=document.getElementById('goal');
+      const money=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+      function update(){
+        const d=Number(donors.value), g=Number(gift.value), r=Number(repeat.value), p=Number(goal.value);
+        const returning=Math.round(d*r/100), first=Math.max(0,d-returning);
+        document.getElementById('donorsOut').textContent=d.toLocaleString('en-US');
+        document.getElementById('giftOut').textContent=money.format(g);
+        document.getElementById('repeatOut').textContent=r+'%';
+        document.getElementById('goalOut').textContent=p+' percentage points';
+        document.getElementById('total').textContent=money.format(d*g);
+        document.getElementById('returning').textContent=returning.toLocaleString('en-US');
+        document.getElementById('firstTime').textContent=first.toLocaleString('en-US');
+        document.getElementById('lift').textContent=money.format(Math.round(d*(p/100)*g));
+        document.getElementById('mixLabel').textContent=r+'% returning';
+        document.getElementById('repeatBar').style.width=r+'%';
+        document.getElementById('firstBar').style.width=(100-r)+'%';
+        document.querySelector('.mixbar').setAttribute('aria-label',r+'% returning donors and '+(100-r)+'% first-time or one-time donors');
+      }
+      [donors,gift,repeat,goal].forEach(function(input){input.addEventListener('input',update)});
+      update();
+    }());
+  </script>
+</body>
+</html>
